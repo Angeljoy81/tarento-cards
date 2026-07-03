@@ -7,12 +7,12 @@ import { AdminLayout } from './layouts/AdminLayout';
 import { EmployeeLayout } from './layouts/EmployeeLayout';
 import { AdminLoginPage } from '../features/auth/pages/AdminLoginPage';
 import { EmployeeAccessRequestPage } from '../features/auth/pages/EmployeeAccessRequestPage';
-import ComponentTest from '../components/ComponentTest';
+import TestPage from '../pages/TestPage';
 
 export function AppRouter() {
   return (
     <Routes>
-        <Route path={ROUTES.COMPONENT_TEST} element={<ComponentTest />} />
+        <Route path={ROUTES.COMPONENT_TEST} element={<TestPage />} />
 
         {/* Public / Unauthenticated Routes */}
         <Route element={<PublicLayout />}>

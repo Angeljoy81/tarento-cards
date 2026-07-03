@@ -57,30 +57,30 @@ export default function EmployeeDashboardPage() {
       subtitle="Track and manage your digital business card."
       employee={profile}
     >
-      <div className="space-y-8">
+      <div className="space-y-4">
 
       {/* Header */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
 
         <div>
 
-          <h1 className="text-3xl font-bold text-navy-500">
+          <h1 className="text-2xl font-bold text-navy-500">
             Good Morning,
           </h1>
 
-          <p className="mt-2 text-lg text-mid-gray">
+          <p className="mt-1 text-base text-mid-gray">
             {profile.name}
           </p>
 
-          <p className="mt-1 text-mid-gray">
+          <p className="mt-1 text-sm text-mid-gray">
             Here's what's happening with your digital
             business card today.
           </p>
 
         </div>
 
-        <div className="mt-6 flex gap-3 lg:mt-0">
+        <div className="mt-4 flex gap-2 lg:mt-0">
 
           <Button
             variant="secondary"
@@ -100,7 +100,7 @@ export default function EmployeeDashboardPage() {
 
       {/* Statistics */}
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
 
         <StatCard
           label="Total Visits"
@@ -126,51 +126,39 @@ export default function EmployeeDashboardPage() {
 
       </div>
 
-      {/* Visits */}
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px]">
+        <VisitsChart
+          data={visits}
+          range={range}
+          onRangeChange={setRange}
+        />
 
-      <VisitsChart
-        data={visits}
-        range={range}
-        onRangeChange={setRange}
-      />
+          <section className="rounded-card border border-light-gray bg-white p-4 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-navy-500">
+                Live Preview
+              </h2>
 
-      {/* Live Preview */}
+              <p className="mt-1 text-xs text-mid-gray">
+                Public visitor card preview.
+              </p>
+            </div>
 
-      <section>
-
-        <div className="mb-6 flex items-center justify-between">
-
-          <div>
-
-            <h2 className="text-2xl font-semibold text-navy-500">
-              Live Preview
-            </h2>
-
-            <p className="mt-1 text-mid-gray">
-              This is exactly how your business card
-              will appear to visitors.
-            </p>
-
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() =>
+                navigate("/employee/my-profile")
+              }
+            >
+              Edit Profile
+            </Button>
           </div>
 
-          <Button
-            variant="secondary"
-            onClick={() =>
-              navigate("/employee/my-profile")
-            }
-          >
-            Edit Profile
-          </Button>
-
-        </div>
-
-        <div className="flex justify-center rounded-card border border-light-gray bg-off-white p-10">
-
           <BusinessCardPlaceholder />
-
-        </div>
-
-      </section>
+        </section>
+      </div>
 
       </div>
     </EmployeeLayout>

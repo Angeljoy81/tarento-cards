@@ -21,17 +21,17 @@ export default function EmployeeLayout({
   children,
 }: EmployeeLayoutProps) {
   return (
-    <div className="min-h-screen bg-off-white">
+    <div className="fixed inset-0 flex overflow-hidden bg-off-white">
       <EmployeeSidebar />
 
-      <main className="min-w-0 md:pl-64">
-        <div className="space-y-6 p-4 md:p-8">
-          <EmployeeTopBar
-            title={title}
-            subtitle={subtitle}
-            employee={employee}
-          />
+      <main className="flex h-full min-h-0 min-w-0 flex-1 flex-col">
+        <EmployeeTopBar
+          title={title}
+          subtitle={subtitle}
+          employee={employee}
+        />
 
+        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6 lg:p-8">
           {children}
         </div>
       </main>

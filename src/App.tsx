@@ -1,1 +1,7 @@
-export { App as default } from './app/App';
+import TestPage from "./pages/TestPage";
+
+function App() {
+  return <TestPage />;
+}
+
+export default App;

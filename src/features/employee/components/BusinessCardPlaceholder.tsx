@@ -5,17 +5,17 @@ import { Icon } from "@/components/Icon";
 
 export default function BusinessCardPlaceholder() {
   return (
-    <Card className="flex min-h-[260px] w-full max-w-sm items-center justify-center border-dashed bg-off-white">
+    <Card className="flex min-h-[180px] w-full max-w-sm items-center justify-center border-dashed bg-off-white">
       <div className="text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-50">
+        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-teal-50">
           <Icon
             icon={CreditCard}
-            size={32}
+            size={24}
             tone="secondary"
           />
         </div>
 
-        <h3 className="text-lg font-semibold text-navy-500">
+        <h3 className="text-base font-semibold text-navy-500">
           Business Card Preview
         </h3>
 

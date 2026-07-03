@@ -19,13 +19,67 @@ interface ProfileFormProps {
   onSave: (data: EmployeeProfile) => void;
 }
 
+const expertiseFields: CuratedField[] = [
+  {
+    id: "react",
+    label: "React",
+    value: "React",
+  },
+  {
+    id: "typescript",
+    label: "TypeScript",
+    value: "TypeScript",
+  },
+  {
+    id: "figma",
+    label: "Figma",
+    value: "Figma",
+  },
+  {
+    id: "design-system",
+    label: "Design Systems",
+    value: "Design Systems",
+  },
+  {
+    id: "accessibility",
+    label: "Accessibility",
+    value: "Accessibility",
+  },
+  {
+    id: "leadership",
+    label: "Leadership",
+    value: "Leadership",
+  },
+  {
+    id: "node",
+    label: "Node.js",
+    value: "Node.js",
+  },
+  {
+    id: "dotnet",
+    label: ".NET",
+    value: ".NET",
+  },
+];
+
+const normalizeProfile = (
+  profile: EmployeeProfile
+): EmployeeProfile => ({
+  ...profile,
+  curatedFields: profile.curatedFields.filter((field) =>
+    expertiseFields.some((item) => item.id === field.id)
+  ),
+});
+
 export default function ProfileForm({
   profile,
   isSaving = false,
   onSave,
 }: ProfileFormProps) {
   const [formData, setFormData] =
-    useState<EmployeeProfile>(profile);
+    useState<EmployeeProfile>(() =>
+      normalizeProfile(profile)
+    );
 
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -291,53 +345,8 @@ export default function ProfileForm({
           Areas of Expertise
         </h2>
 
-        <h3 className="mb-4 text-sm font-semibold text-navy-500">
-          Additional Information
-        </h3>
-
         <CuratedFieldPicker
-          availableFields={[
-            {
-              id: "react",
-              label: "React",
-              value: "React",
-            },
-            {
-              id: "typescript",
-              label: "TypeScript",
-              value: "TypeScript",
-            },
-            {
-              id: "figma",
-              label: "Figma",
-              value: "Figma",
-            },
-            {
-              id: "design-system",
-              label: "Design Systems",
-              value: "Design Systems",
-            },
-            {
-              id: "accessibility",
-              label: "Accessibility",
-              value: "Accessibility",
-            },
-            {
-              id: "leadership",
-              label: "Leadership",
-              value: "Leadership",
-            },
-            {
-              id: "node",
-              label: "Node.js",
-              value: "Node.js",
-            },
-            {
-              id: "dotnet",
-              label: ".NET",
-              value: ".NET",
-            },
-          ]}
+          availableFields={expertiseFields}
           selectedFields={formData.curatedFields}
           onAdd={handleAddField}
           onRemove={handleRemoveField}
@@ -353,7 +362,9 @@ export default function ProfileForm({
         <Button
           variant="secondary"
           type="button"
-          onClick={() => setFormData(profile)}
+          onClick={() =>
+            setFormData(normalizeProfile(profile))
+          }
         >
           Cancel
         </Button>

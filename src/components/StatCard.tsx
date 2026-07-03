@@ -32,8 +32,8 @@ export default function StatCard({
   icon,
 }: StatCardProps) {
   return (
-    <Card padding="md">
-      <div className="flex flex-col gap-3">
+    <Card padding="sm">
+      <div className="flex flex-col gap-2">
 
         <div className="flex items-center gap-2">
 
@@ -45,7 +45,7 @@ export default function StatCard({
 
         </div>
 
-        <h2 className="text-3xl font-bold text-navy-500">
+        <h2 className="text-2xl font-bold text-navy-500">
           {value}
         </h2>
 

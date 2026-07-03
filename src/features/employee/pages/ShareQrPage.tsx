@@ -41,7 +41,7 @@ export default function ShareQrPage() {
       subtitle="Share your professional profile with a QR code or direct link."
       employee={profile}
     >
-      <div className="mx-auto max-w-7xl space-y-8">
+      <div className="mx-auto max-w-7xl space-y-6">
 
       {/* Header */}
 
@@ -77,7 +77,7 @@ export default function ShareQrPage() {
 
       {/* Main Content */}
 
-      <div className="grid gap-8 xl:grid-cols-[420px_1fr]">
+      <div className="grid gap-6 xl:grid-cols-[360px_1fr]">
 
         {/* QR */}
 

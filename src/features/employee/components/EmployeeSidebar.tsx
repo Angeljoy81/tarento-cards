@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Menu,
@@ -9,7 +9,8 @@ import {
 
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
-import { cn } from "@/lib/utils";
+import { Logo } from "@/components/Logo";
+import { Sidebar } from "@/components/Sidebar";
 
 const navItems = [
   {
@@ -26,43 +27,50 @@ const navItems = [
 
 export default function EmployeeSidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const items = navItems.map((item) => ({
+    id: item.to,
+    label: item.label,
+    active: location.pathname === item.to,
+    icon: (
+      <Icon
+        icon={item.icon}
+        size={20}
+        className="text-current"
+      />
+    ),
+    onClick: () => {
+      navigate(item.to);
+      setIsOpen(false);
+    },
+  }));
 
   const sidebar = (
-    <aside className="flex h-full w-64 flex-col bg-navy-500 text-off-white">
-      <div className="border-b border-navy-400 px-6 py-5">
-        <p className="text-xl font-bold leading-tight">
-          Tarento Enterprise
-        </p>
+    <aside className="flex h-full w-full flex-col bg-navy-500 text-off-white md:w-60">
+      <div className="flex items-center gap-3 border-b border-navy-400 px-5 py-5">
+        <Logo
+          variant="dark"
+          size="sm"
+          className="shrink-0 rounded-button bg-white p-1.5"
+        />
 
-        <p className="mt-1 text-sm text-navy-100">
-          Admin Portal
-        </p>
+        <div>
+          <p className="text-lg font-bold leading-tight">
+            Tarento Enterprise
+          </p>
+
+          <p className="mt-1 text-xs text-navy-100">
+            Admin Portal
+          </p>
+        </div>
       </div>
 
-      <nav className="flex-1 space-y-2 px-3 py-6">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            onClick={() => setIsOpen(false)}
-            className={({ isActive }) =>
-              cn(
-                "flex items-center gap-3 rounded-button px-4 py-3 text-sm font-semibold transition-colors",
-                isActive
-                  ? "bg-navy-400 text-white"
-                  : "text-navy-100 hover:bg-navy-400 hover:text-white"
-              )
-            }
-          >
-            <Icon
-              icon={item.icon}
-              size={20}
-              className="text-current"
-            />
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
+      <Sidebar
+        items={items}
+        className="h-full w-full border-r-0 bg-navy-500 shadow-none [&_nav]:px-3 [&_nav]:py-5 [&_button]:border-transparent [&_button]:text-navy-100 [&_button]:hover:bg-navy-400 [&_button]:hover:text-white [&_button.bg-teal-50]:bg-navy-400 [&_button.bg-teal-50]:text-white"
+      />
     </aside>
   );
 
@@ -81,7 +89,7 @@ export default function EmployeeSidebar() {
         </Button>
       </div>
 
-      <div className="hidden md:fixed md:inset-y-0 md:left-0 md:block">
+      <div className="hidden h-full shrink-0 md:block">
         {sidebar}
       </div>
 
@@ -94,7 +102,7 @@ export default function EmployeeSidebar() {
             onClick={() => setIsOpen(false)}
           />
 
-          <div className="relative h-full">
+          <div className="relative h-full w-64">
             {sidebar}
 
             <button

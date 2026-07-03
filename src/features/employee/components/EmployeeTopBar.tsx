@@ -1,5 +1,4 @@
 import Avatar from "@/components/Avatar";
-import { Card } from "@/components/Card";
 
 interface EmployeeTopBarProps {
   title: string;
@@ -17,16 +16,13 @@ export default function EmployeeTopBar({
   employee,
 }: EmployeeTopBarProps) {
   return (
-    <Card
-      padding="sm"
-      className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
-    >
+    <header className="flex min-h-16 shrink-0 flex-col gap-3 border-b border-light-gray bg-white px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
       <div>
-        <h1 className="text-2xl font-bold text-navy-500 md:text-3xl">
+        <h1 className="text-xl font-bold text-navy-500">
           {title}
         </h1>
 
-        <p className="mt-1 text-sm text-mid-gray md:text-base">
+        <p className="mt-1 text-xs text-mid-gray">
           {subtitle}
         </p>
       </div>
@@ -48,6 +44,6 @@ export default function EmployeeTopBar({
           </p>
         </div>
       </div>
-    </Card>
+    </header>
   );
 }
