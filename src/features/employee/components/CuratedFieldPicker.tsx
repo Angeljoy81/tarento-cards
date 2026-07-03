@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronDown, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { Button } from "@/components/Button";
 import { Select } from "@/components/Select";

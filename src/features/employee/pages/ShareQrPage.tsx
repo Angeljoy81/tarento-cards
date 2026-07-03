@@ -2,10 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/Button";
-import { Card } from "@/components/Card";
 import { Icon } from "@/components/Icon";
 
-import CardPreview from "../components/CardPreview";
+import BusinessCardPlaceholder from "../components/BusinessCardPlaceholder";
+import EmployeeLayout from "../components/EmployeeLayout";
 import QrShareCard from "../components/QrShareCard";
 import { useEmployeeProfile } from "../hooks/useEmployeeProfile";
 
@@ -36,7 +36,12 @@ export default function ShareQrPage() {
   const profileUrl = `https://tarentocard.com/profile/${profile.id}`;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8">
+    <EmployeeLayout
+      title="Share Profile"
+      subtitle="Share your professional profile with a QR code or direct link."
+      employee={profile}
+    >
+      <div className="mx-auto max-w-7xl space-y-8">
 
       {/* Header */}
 
@@ -58,7 +63,7 @@ export default function ShareQrPage() {
           </Button>
 
           <h1 className="mt-4 text-3xl font-bold text-navy-500">
-            Share Your Digital Card
+            Share Profile
           </h1>
 
           <p className="mt-2 text-mid-gray">
@@ -84,7 +89,7 @@ export default function ShareQrPage() {
 
         {/* Preview */}
 
-        <Card>
+        <section>
 
           <div className="mb-6">
 
@@ -99,18 +104,13 @@ export default function ShareQrPage() {
 
           </div>
 
-          <div className="flex justify-center">
+          <BusinessCardPlaceholder />
 
-            <CardPreview
-              profile={profile}
-            />
-
-          </div>
-
-        </Card>
+        </section>
 
       </div>
 
-    </div>
+      </div>
+    </EmployeeLayout>
   );
 }

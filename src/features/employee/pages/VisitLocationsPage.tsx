@@ -5,6 +5,9 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { Icon } from "@/components/Icon";
 
+import EmployeeLayout from "../components/EmployeeLayout";
+import { useEmployeeProfile } from "../hooks/useEmployeeProfile";
+
 const locations = [
   {
     city: "Bengaluru",
@@ -31,13 +34,39 @@ const locations = [
 export default function VisitLocationsPage() {
   const navigate = useNavigate();
 
+  const {
+    profile,
+    isLoading,
+  } = useEmployeeProfile();
+
   const totalVisits = locations.reduce(
     (sum, item) => sum + item.visits,
     0
   );
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        Unable to load profile.
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-8">
+    <EmployeeLayout
+      title="Card Visit Locations"
+      subtitle="See where your digital card has been viewed."
+      employee={profile}
+    >
+      <div className="space-y-8">
 
       <Button
         variant="tertiary"
@@ -107,6 +136,7 @@ export default function VisitLocationsPage() {
 
       </Card>
 
-    </div>
+      </div>
+    </EmployeeLayout>
   );
 }

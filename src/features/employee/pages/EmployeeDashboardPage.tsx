@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Eye, Pencil, Share2 } from "lucide-react";
+import { Eye, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/Button";
 import StatCard from "@/components/StatCard";
 
-import CardPreview from "../components/CardPreview";
+import BusinessCardPlaceholder from "../components/BusinessCardPlaceholder";
+import EmployeeLayout from "../components/EmployeeLayout";
 import VisitsChart, {
   type VisitRange,
 } from "../components/VisitsChart";
@@ -51,7 +52,12 @@ export default function EmployeeDashboardPage() {
   );
 
   return (
-    <div className="space-y-8">
+    <EmployeeLayout
+      title="Tarento Card"
+      subtitle="Track and manage your digital business card."
+      employee={profile}
+    >
+      <div className="space-y-8">
 
       {/* Header */}
 
@@ -79,24 +85,12 @@ export default function EmployeeDashboardPage() {
           <Button
             variant="secondary"
             onClick={() =>
-              navigate("/employee/edit-profile")
-            }
-          >
-            <div className="flex items-center gap-2">
-              <Pencil size={18} />
-              Edit About
-            </div>
-          </Button>
-
-          <Button
-            variant="primary"
-            onClick={() =>
               navigate("/employee/my-profile")
             }
           >
             <div className="flex items-center gap-2">
-              <Share2 size={18} />
-              Share Card
+              <Pencil size={18} />
+              Edit Profile
             </div>
           </Button>
 
@@ -162,7 +156,7 @@ export default function EmployeeDashboardPage() {
           <Button
             variant="secondary"
             onClick={() =>
-              navigate("/employee/edit-profile")
+              navigate("/employee/my-profile")
             }
           >
             Edit Profile
@@ -172,12 +166,13 @@ export default function EmployeeDashboardPage() {
 
         <div className="flex justify-center rounded-card border border-light-gray bg-off-white p-10">
 
-          <CardPreview profile={profile} />
+          <BusinessCardPlaceholder />
 
         </div>
 
       </section>
 
-    </div>
+      </div>
+    </EmployeeLayout>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Lock } from "lucide-react";
 
 import Avatar from "@/components/Avatar";
@@ -26,10 +26,6 @@ export default function ProfileForm({
 }: ProfileFormProps) {
   const [formData, setFormData] =
     useState<EmployeeProfile>(profile);
-
-  useEffect(() => {
-    setFormData(profile);
-  }, [profile]);
 
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -286,14 +282,19 @@ export default function ProfileForm({
       </Card>
 
       {/* ===========================================
-            ADDITIONAL INFORMATION
+            AREAS OF EXPERTISE
       ============================================ */}
 
       <Card>
 
         <h2 className="mb-6 text-xl font-semibold text-navy-500">
-          Additional Information
+          Areas of Expertise
         </h2>
+
+        <h3 className="mb-4 text-sm font-semibold text-navy-500">
+          Additional Information
+        </h3>
+
         <CuratedFieldPicker
           availableFields={[
             {
@@ -341,31 +342,6 @@ export default function ProfileForm({
           onAdd={handleAddField}
           onRemove={handleRemoveField}
         />
-
-        {formData.curatedFields.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-3">
-            {formData.curatedFields.map((field) => (
-              <div
-                key={field.id}
-                className="flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2"
-              >
-                <span className="text-sm font-medium text-teal-700">
-                  {field.label}
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleRemoveField(field.id)
-                  }
-                  className="text-base leading-none text-mid-gray transition-colors hover:text-destructive"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </Card>
 
       {/* ===========================================
