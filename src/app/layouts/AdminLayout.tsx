@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, UserPlus, Building2, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, LogOut, UserCircle2 } from 'lucide-react';
 import { Logo } from '../../components/Logo';
 import { Icon } from '../../components/Icon';
 import { ROUTES } from '../../config/routes';
@@ -11,7 +11,7 @@ export function AdminLayout() {
 
   const navItems = [
     { to: ROUTES.ADMIN_DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
-    { to: ROUTES.ADMIN_APPROVALS, label: 'Approval requests', icon: UserPlus },
+    { to: ROUTES.ADMIN_PROFILE, label: 'Admin profile', icon: UserCircle2 },
     { to: ROUTES.ADMIN_EMPLOYEES, label: 'Employees', icon: Users },
     { to: ROUTES.ADMIN_COMPANY_PROFILE, label: 'Company profile', icon: Building2 },
   ];
