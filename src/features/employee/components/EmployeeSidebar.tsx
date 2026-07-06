@@ -11,15 +11,18 @@ import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import { Sidebar } from "@/components/Sidebar";
+import { ROUTES } from "@/config/routes";
 
 const navItems = [
   {
-    to: "/employee/dashboard",
+    to: ROUTES.EMPLOYEE_DASHBOARD,
+    path: ROUTES.EMPLOYEE_DASHBOARD,
     label: "Dashboard",
     icon: LayoutDashboard,
   },
   {
-    to: "/employee/my-profile",
+    to: ROUTES.EMPLOYEE_EDIT_PROFILE,
+    path: ROUTES.EMPLOYEE_EDIT_PROFILE,
     label: "My Profile",
     icon: UserCircle,
   },
@@ -33,7 +36,8 @@ export default function EmployeeSidebar() {
   const items = navItems.map((item) => ({
     id: item.to,
     label: item.label,
-    active: location.pathname === item.to,
+    href: item.path,
+    active: location.pathname === item.path,
     icon: (
       <Icon
         icon={item.icon}

@@ -1,5 +1,5 @@
-import ShareQrPage from "@/features/employee/pages/ShareQrPage";
+import EmployeeDashboardPage from "@/features/employee/pages/EmployeeDashboardPage";
 
 export default function TestPage() {
-  return <ShareQrPage />;
+  return <EmployeeDashboardPage />;
 }
