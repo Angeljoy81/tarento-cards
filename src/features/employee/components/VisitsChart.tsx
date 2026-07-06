@@ -7,12 +7,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { MapPin } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// import { MapPin } from "lucide-react";
+// import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
-import { Icon } from "@/components/Icon";
+// import { Icon } from "@/components/Icon";
 
 import type { VisitDataPoint } from "../types/employee.types";
 
@@ -31,7 +31,7 @@ export default function VisitsChart({
   range,
   onRangeChange,
 }: VisitsChartProps) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const totalVisits = data.reduce(
     (sum, item) => sum + item.visits,
@@ -132,7 +132,7 @@ export default function VisitsChart({
 
         </div>
 
-        <Button
+        {/* <Button
           variant="secondary"
           onClick={() =>
             navigate("/employee/visit-locations")
@@ -148,7 +148,7 @@ export default function VisitsChart({
             View Locations
 
           </div>
-        </Button>
+        </Button> */}
 
       </div>
 

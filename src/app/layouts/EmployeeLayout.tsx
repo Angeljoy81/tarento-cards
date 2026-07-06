@@ -30,7 +30,7 @@ export function EmployeeLayout() {
               className={({ isActive }) =>
                 cn(
                   'flex items-center gap-3 px-4 py-3 rounded-button font-sans text-sm font-semibold transition-colors whitespace-nowrap',
-                  isActive ? 'bg-navy-400 text-white' : 'text-navy-100 hover:bg-navy-600 hover:text-white'
+                  isActive ? 'bg-navy-400 !text-white' : 'text-navy-100 hover:bg-navy-600 hover:text-white'
                 )
               }
             >

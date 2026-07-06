@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Lock } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 import Avatar from "@/components/Avatar";
 import { Button } from "@/components/Button";
@@ -17,6 +17,7 @@ interface ProfileFormProps {
   profile: EmployeeProfile;
   isSaving?: boolean;
   isEditing?: boolean;
+  onEdit: () => void;
   onSave: (data: EmployeeProfile) => void;
   onCancel?: () => void;
 }
@@ -77,6 +78,7 @@ export default function ProfileForm({
   profile,
   isSaving = false,
   isEditing = false,
+  onEdit,
   onSave,
   onCancel,
 }: ProfileFormProps) {
@@ -91,6 +93,15 @@ export default function ProfileForm({
     setFormData((prev) => ({
       ...prev,
       description: e.target.value,
+    }));
+  };
+
+  const handleLinkedInChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      linkedin: e.target.value,
     }));
   };
 
@@ -127,8 +138,8 @@ export default function ProfileForm({
   };
 
   return (
-    <div className="space-y-3">
-      <Card padding="md" className="p-4 sm:p-5">
+    <div className="space-y-3 h-full">
+      <Card padding="md" className="p-4 sm:p-5 h-full">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-navy-500">
@@ -139,10 +150,14 @@ export default function ProfileForm({
             </p>
           </div>
 
-          <div className="flex items-center gap-2 rounded-full border border-light-gray bg-off-white px-3 py-1.5">
-            <Icon icon={Lock} size={16} tone="disabled" />
-            <span className="text-sm text-mid-gray">Locked Info</span>
-          </div>
+          {!isEditing ? (
+            <Button variant="secondary" onClick={() => onEdit()}>
+              <div className="flex items-center gap-2">
+                <Icon icon={Pencil} size={20} />
+                Edit Profile
+              </div>
+            </Button>
+          ) : null}
         </div>
 
         <div className="mb-4 flex justify-center">
@@ -160,17 +175,9 @@ export default function ProfileForm({
 
             <div
               title="This field is locked by administration"
-              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+              className="rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
             >
-
-              <span>{formData.name}</span>
-
-              <Icon
-                icon={Lock}
-                size={16}
-                tone="disabled"
-              />
-
+              {formData.name}
             </div>
 
           </div>
@@ -183,17 +190,9 @@ export default function ProfileForm({
 
             <div
               title="This field is locked by administration"
-              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+              className="rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
             >
-
-              <span>{formData.jobTitle}</span>
-
-              <Icon
-                icon={Lock}
-                size={16}
-                tone="disabled"
-              />
-
+              {formData.jobTitle}
             </div>
 
           </div>
@@ -206,17 +205,9 @@ export default function ProfileForm({
 
             <div
               title="This field is locked by administration"
-              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+              className="rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
             >
-
-              <span>{formData.department}</span>
-
-              <Icon
-                icon={Lock}
-                size={16}
-                tone="disabled"
-              />
-
+              {formData.department}
             </div>
 
           </div>
@@ -229,17 +220,9 @@ export default function ProfileForm({
 
             <div
               title="This field is locked by administration"
-              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+              className="rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
             >
-
-              <span>{formData.phone}</span>
-
-              <Icon
-                icon={Lock}
-                size={16}
-                tone="disabled"
-              />
-
+              {formData.phone}
             </div>
 
           </div>
@@ -252,17 +235,9 @@ export default function ProfileForm({
 
             <div
               title="This field is locked by administration"
-              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+              className="rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
             >
-
-              <span>{formData.email}</span>
-
-              <Icon
-                icon={Lock}
-                size={16}
-                tone="disabled"
-              />
-
+              {formData.email}
             </div>
 
           </div>
@@ -273,22 +248,17 @@ export default function ProfileForm({
               LinkedIn Profile
             </label>
 
-            <div
-              title="This field is locked by administration"
-              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
-            >
-
-              <span className="truncate">
-                {formData.linkedin}
-              </span>
-
-              <Icon
-                icon={Lock}
-                size={16}
-                tone="disabled"
-              />
-
-            </div>
+            <input
+              type="text"
+              value={formData.linkedin}
+              onChange={handleLinkedInChange}
+              readOnly={!isEditing}
+              className={`w-full rounded-button border px-3 py-2.5 text-sm outline-none transition ${
+                isEditing
+                  ? "bg-white border-teal-200 focus:border-teal-500"
+                  : "bg-slate-100 border-light-gray text-slate-500"
+              }`}
+            />
 
           </div>
 
@@ -315,15 +285,15 @@ export default function ProfileForm({
               value={formData.description}
               onChange={handleDescriptionChange}
               readOnly={!isEditing}
-              className={`w-full resize-none rounded-button border border-light-gray px-3 py-2.5 text-sm outline-none transition ${
+              className={`w-full resize-none rounded-button px-3 py-2.5 text-sm outline-none transition ${
                 isEditing
-                  ? "bg-white focus:border-teal-500"
-                  : "bg-slate-100 text-slate-500"
+                  ? "bg-white border-teal-200 border focus:border-teal-500"
+                  : "bg-slate-100 border-light-gray text-slate-500"
               }`}
             />
           </div>
 
-          <div className="rounded-xl border border-light-gray bg-off-white/60 p-3">
+          <div className={isEditing ? "rounded-xl border border-teal-200 bg-white p-3" : "rounded-xl border border-light-gray bg-off-white/60 p-3"}>
             <h3 className="mb-2 text-sm font-semibold text-navy-500">
               Areas of Expertise
             </h3>
@@ -331,44 +301,40 @@ export default function ProfileForm({
               <CuratedFieldPicker
                 availableFields={expertiseFields}
                 selectedFields={formData.curatedFields}
+                isEditing={isEditing}
                 onAdd={isEditing ? handleAddField : () => undefined}
                 onRemove={isEditing ? handleRemoveField : () => undefined}
               />
             </div>
           </div>
+
+          {isEditing ? (
+            <div className="mt-4 flex flex-col-reverse gap-3 border-t border-light-gray pt-3 sm:flex-row sm:justify-end">
+              <Button
+                variant="secondary"
+                type="button"
+                onClick={() => {
+                  setFormData(normalizeProfile(profile));
+                  onCancel?.();
+                }}
+                className="w-full sm:w-auto"
+              >
+                Cancel
+              </Button>
+
+              <Button
+                variant="primary"
+                type="button"
+                disabled={isSaving}
+                onClick={() => onSave(formData)}
+                className="w-full sm:w-auto"
+              >
+                {isSaving ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
+          ) : null}
         </div>
       </Card>
-
-      <div className="flex flex-col-reverse gap-3 border-t border-light-gray pt-3 sm:flex-row sm:justify-end">
-
-        {isEditing ? (
-          <>
-            <Button
-              variant="secondary"
-              type="button"
-              onClick={() => {
-                setFormData(normalizeProfile(profile));
-                onCancel?.();
-              }}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              variant="primary"
-              type="button"
-              disabled={isSaving}
-              onClick={() => onSave(formData)}
-            >
-              {isSaving
-                ? "Saving..."
-                : "Save Changes"}
-            </Button>
-          </>
-        ) : null}
-
-      </div>
-
     </div>
   );
 }

@@ -58,11 +58,9 @@ export default function EmployeeDashboardPage() {
       subtitle="Track and manage your digital business card."
       employee={profile}
     >
-      <div className="flex h-[calc(100vh-120px)] flex-col gap-4 overflow-hidden">
-
-      {/* Header */}
-
-      <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+      <div className="w-full px-8 py-6">
+        <div className="space-y-6">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
 
         <div>
 
@@ -85,9 +83,9 @@ export default function EmployeeDashboardPage() {
 
       {/* Dashboard Content */}
 
-      <div className="flex flex-1 gap-4 overflow-hidden xl:gap-5 xl:px-0 xl:py-0 xl:flex-row">
-        <div className="flex h-full flex-1 flex-col gap-4">
-          <div className="grid grid-cols-3 gap-3 w-full">
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 lg:col-span-8 space-y-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <StatCard
               label="Total Visits"
               value={totalVisits}
@@ -111,7 +109,7 @@ export default function EmployeeDashboardPage() {
             />
           </div>
 
-          <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-card border border-light-gray bg-white p-3 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
+          <div className="flex min-h-0 flex-col overflow-hidden rounded-card border border-light-gray bg-white p-3 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
             <div className="flex-1 min-h-0">
               <VisitsChart
                 data={visits}
@@ -122,7 +120,7 @@ export default function EmployeeDashboardPage() {
           </div>
         </div>
 
-        <section className="flex h-full min-h-0 flex-col rounded-card border border-light-gray bg-white p-3 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
+        <section className="col-span-12 lg:col-span-4 flex min-h-0 flex-col rounded-card border border-light-gray bg-white p-3 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
           <div className="mb-3 flex items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-navy-500">
@@ -150,8 +148,8 @@ export default function EmployeeDashboardPage() {
           </div>
         </section>
       </div>
-
-      </div>
+    </div>
+  </div>
     </EmployeeLayout>
   );
 }

@@ -10,6 +10,7 @@ import type { CuratedField } from "../types/employee.types";
 interface CuratedFieldPickerProps {
   availableFields: CuratedField[];
   selectedFields: CuratedField[];
+  isEditing?: boolean;
 
   onAdd: (field: CuratedField) => void;
 
@@ -19,6 +20,7 @@ interface CuratedFieldPickerProps {
 export default function CuratedFieldPicker({
   availableFields,
   selectedFields,
+  isEditing = false,
   onAdd,
   onRemove,
 }: CuratedFieldPickerProps) {
@@ -56,30 +58,36 @@ export default function CuratedFieldPicker({
           {selectedFields.map((field) => (
             <span
               key={field.id}
-              className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-medium text-teal-700"
+              className={
+                isEditing
+                  ? "inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-medium text-teal-700"
+                  : "inline-flex items-center gap-2 rounded-full border border-light-gray bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600"
+              }
             >
               {field.label}
 
-              <button
-                type="button"
-                aria-label={`Remove ${field.label}`}
-                className="text-mid-gray transition-colors hover:text-destructive"
-                onClick={() =>
-                  onRemove(field.id)
-                }
-              >
-                <Icon
-                  icon={X}
-                  size={16}
-                  className="text-current"
-                />
-              </button>
+              {isEditing ? (
+                <button
+                  type="button"
+                  aria-label={`Remove ${field.label}`}
+                  className="text-mid-gray transition-colors hover:text-destructive"
+                  onClick={() =>
+                    onRemove(field.id)
+                  }
+                >
+                  <Icon
+                    icon={X}
+                    size={16}
+                    className="text-current"
+                  />
+                </button>
+              ) : null}
             </span>
           ))}
         </div>
       )}
 
-      {remainingFields.length > 0 && !isAdding && (
+      {remainingFields.length > 0 && !isAdding && isEditing && (
         <Button
           variant="secondary"
           type="button"
@@ -95,7 +103,7 @@ export default function CuratedFieldPicker({
         </Button>
       )}
 
-      {remainingFields.length > 0 && isAdding && (
+      {remainingFields.length > 0 && isAdding && isEditing && (
         <div className="rounded-button border border-dashed border-light-gray bg-off-white p-4">
           <Select
             label="Area of expertise"
