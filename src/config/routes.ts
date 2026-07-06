@@ -3,7 +3,7 @@ export const ROUTES = {
   COMPONENT_TEST: '/components-test',
   ADMIN_LOGIN: '/admin/login',
   ADMIN_DASHBOARD: '/admin/dashboard',
-  ADMIN_APPROVALS: '/admin/approvals',
+  ADMIN_PROFILE: '/admin/profile',
   ADMIN_EMPLOYEES: '/admin/employees',
   ADMIN_COMPANY_PROFILE: '/admin/company-profile',
   

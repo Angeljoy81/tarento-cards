@@ -7,6 +7,10 @@ import { AdminLayout } from './layouts/AdminLayout';
 import { EmployeeLayout } from './layouts/EmployeeLayout';
 import { AdminLoginPage } from '../features/auth/pages/AdminLoginPage';
 import { EmployeeAccessRequestPage } from '../features/auth/pages/EmployeeAccessRequestPage';
+import { AdminDashboardPage } from '../features/admin/pages/AdminDashboardPage';
+import { AdminProfilePage } from '../features/admin/pages/AdminProfilePage';
+import { EmployeeDirectoryPage } from '../features/admin/pages/EmployeeDirectoryPage';
+import { CompanyProfilePage } from '../features/admin/pages/CompanyProfilePage';
 import ComponentTest from '../components/ComponentTest';
 
 export function AppRouter() {
@@ -27,10 +31,10 @@ export function AppRouter() {
             <AdminLayout />
           </ProtectedRoute>
         }>
-          <Route path={ROUTES.ADMIN_DASHBOARD} element={<div className="p-8 text-almost-black">Admin Dashboard Page Stub</div>} />
-          <Route path={ROUTES.ADMIN_APPROVALS} element={<div className="p-8 text-almost-black">Approval Requests Page Stub</div>} />
-          <Route path={ROUTES.ADMIN_EMPLOYEES} element={<div className="p-8 text-almost-black">Employee Directory Page Stub</div>} />
-          <Route path={ROUTES.ADMIN_COMPANY_PROFILE} element={<div className="p-8 text-almost-black">Company Profile Page Stub</div>} />
+          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboardPage />} />
+          <Route path={ROUTES.ADMIN_PROFILE} element={<AdminProfilePage />} />
+          <Route path={ROUTES.ADMIN_EMPLOYEES} element={<EmployeeDirectoryPage />} />
+          <Route path={ROUTES.ADMIN_COMPANY_PROFILE} element={<CompanyProfilePage />} />
         </Route>
 
         {/* Employee Routes */}

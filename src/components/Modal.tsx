@@ -5,8 +5,6 @@ import {
 } from "react";
 
 import { X } from "lucide-react";
-
-import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
 import { cn } from "@/lib/utils";
 
