@@ -24,9 +24,17 @@ export default function EditProfilePage() {
     isSaving,
   } = useEmployeeProfile();
 
-  const handleSave = (data: import("../types/employee.types").EmployeeProfile) => {
+  const handleSave = (
+    data: import("../types/employee.types").EmployeeProfile,
+    file: File | null
+  ) => {
     updateProfile(data);
     setIsEditing(false);
+
+    if (file) {
+      // File is staged and available here for future upload handling.
+      console.log("Selected avatar file ready to upload:", file.name);
+    }
   };
 
   const profileUrl = profile
@@ -53,8 +61,8 @@ export default function EditProfilePage() {
 
   return (
     <EmployeeLayout
-      title="My Profile"
-      subtitle="Update the public information visitors see on your card."
+      title=""
+      subtitle=""
       employee={profile}
     >
       <div className="w-full px-8 py-6">

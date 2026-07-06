@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { Plus, X } from "lucide-react";
 
 import { Button } from "@/components/Button";
-import { Select } from "@/components/Select";
 import { Icon } from "@/components/Icon";
 
 import type { CuratedField } from "../types/employee.types";
@@ -24,7 +23,7 @@ export default function CuratedFieldPicker({
   onAdd,
   onRemove,
 }: CuratedFieldPickerProps) {
-  const [selectedId, setSelectedId] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [isAdding, setIsAdding] = useState(false);
 
   const remainingFields = useMemo(() => {
@@ -36,20 +35,71 @@ export default function CuratedFieldPicker({
     );
   }, [availableFields, selectedFields]);
 
-  const handleAdd = () => {
-    if (!selectedId) return;
+  const normalizedInput = inputValue.trim();
+  const exactMatchField = remainingFields.find(
+    (field) => field.label.toLowerCase() === normalizedInput.toLowerCase()
+  );
+  const filteredFields = useMemo(
+    () =>
+      remainingFields.filter((field) =>
+        field.label.toLowerCase().includes(normalizedInput.toLowerCase())
+      ),
+    [remainingFields, normalizedInput]
+  );
 
-    const field = availableFields.find(
-      (item) => item.id === selectedId
-    );
-
-    if (!field) return;
-
+  const addField = (field: CuratedField) => {
     onAdd(field);
-
-    setSelectedId("");
+    setInputValue("");
     setIsAdding(false);
   };
+
+  const addCustomField = (label: string) => {
+    const trimmedLabel = label.trim();
+    if (!trimmedLabel) return;
+
+    const newField: CuratedField = {
+      id:
+        typeof crypto !== "undefined" &&
+        typeof crypto.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `custom-${Date.now()}`,
+      label: trimmedLabel,
+      value: trimmedLabel,
+    };
+
+    addField(newField);
+  };
+
+  const handleAdd = () => {
+    if (!normalizedInput) return;
+
+    if (exactMatchField) {
+      addField(exactMatchField);
+      return;
+    }
+
+    addCustomField(normalizedInput);
+  };
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleAdd();
+    }
+
+    if (event.key === "Escape") {
+      setIsAdding(false);
+    }
+  };
+
+  const showAddOption =
+    normalizedInput.length > 0 &&
+    !exactMatchField &&
+    !selectedFields.some(
+      (field) => field.label.toLowerCase() === normalizedInput.toLowerCase()
+    );
 
   return (
     <div className="space-y-4">
@@ -105,25 +155,57 @@ export default function CuratedFieldPicker({
 
       {remainingFields.length > 0 && isAdding && isEditing && (
         <div className="rounded-button border border-dashed border-light-gray bg-off-white p-4">
-          <Select
-            label="Area of expertise"
-            value={selectedId}
-            onChange={setSelectedId}
-            placeholder="Select an area"
-            options={remainingFields.map(
-              (field) => ({
-                label: field.label,
-                value: field.id,
-              })
+          <label className="mb-2 block text-sm font-medium text-navy-100">
+            Area of expertise
+          </label>
+
+          <div className="relative">
+            <input
+              value={inputValue}
+              onChange={(event) => {
+                setInputValue(event.target.value);
+              }}
+              onFocus={() => setIsAdding(true)}
+              onBlur={() => setTimeout(() => setIsAdding(false), 150)}
+              onKeyDown={handleKeyDown}
+              placeholder="Type or select an expertise"
+              className="w-full rounded border border-gray-300 px-3 py-2 focus:border-primary focus:outline-none"
+            />
+
+            {isAdding && (filteredFields.length > 0 || showAddOption) && (
+              <div className="absolute left-0 right-0 z-10 mt-1 overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
+                {filteredFields.map((field) => (
+                  <button
+                    key={field.id}
+                    type="button"
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => addField(field)}
+                    className="w-full px-3 py-2 text-left hover:bg-gray-100"
+                  >
+                    {field.label}
+                  </button>
+                ))}
+
+                {showAddOption ? (
+                  <button
+                    type="button"
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => addCustomField(normalizedInput)}
+                    className="w-full px-3 py-2 text-left font-medium text-primary hover:bg-gray-100"
+                  >
+                    Add “{inputValue}”
+                  </button>
+                ) : null}
+              </div>
             )}
-          />
+          </div>
 
           <div className="mt-4 flex justify-end gap-3">
             <Button
               variant="tertiary"
               type="button"
               onClick={() => {
-                setSelectedId("");
+                setInputValue("");
                 setIsAdding(false);
               }}
             >
@@ -133,18 +215,14 @@ export default function CuratedFieldPicker({
             <Button
               variant="primary"
               type="button"
-              disabled={!selectedId}
+              disabled={!normalizedInput}
               onClick={handleAdd}
             >
               Add
             </Button>
-
           </div>
-
         </div>
-
       )}
-
     </div>
   );
 }

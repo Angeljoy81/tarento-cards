@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pencil } from "lucide-react";
 
 import Avatar from "@/components/Avatar";
@@ -18,7 +18,7 @@ interface ProfileFormProps {
   isSaving?: boolean;
   isEditing?: boolean;
   onEdit: () => void;
-  onSave: (data: EmployeeProfile) => void;
+  onSave: (data: EmployeeProfile, file: File | null) => void;
   onCancel?: () => void;
 }
 
@@ -86,6 +86,24 @@ export default function ProfileForm({
     useState<EmployeeProfile>(() =>
       normalizeProfile(profile)
     );
+  const [selectedImageFile, setSelectedImageFile] =
+    useState<File | null>(null);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] =
+    useState(profile.avatar ?? "");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setAvatarPreviewUrl(profile.avatar ?? "");
+    setSelectedImageFile(null);
+  }, [profile]);
+
+  useEffect(() => {
+    return () => {
+      if (avatarPreviewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(avatarPreviewUrl);
+      }
+    };
+  }, [avatarPreviewUrl]);
 
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -102,6 +120,31 @@ export default function ProfileForm({
     setFormData((prev) => ({
       ...prev,
       linkedin: e.target.value,
+    }));
+  };
+
+  const handleAvatarClick = () => {
+    if (!isEditing) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const objectUrl = URL.createObjectURL(file);
+
+    if (avatarPreviewUrl?.startsWith("blob:")) {
+      URL.revokeObjectURL(avatarPreviewUrl);
+    }
+
+    setSelectedImageFile(file);
+    setAvatarPreviewUrl(objectUrl);
+    setFormData((prev) => ({
+      ...prev,
+      avatar: objectUrl,
     }));
   };
 
@@ -161,7 +204,32 @@ export default function ProfileForm({
         </div>
 
         <div className="mb-4 flex justify-center">
-          <Avatar src={formData.avatar} name={formData.name} size="xl" />
+          <div
+            className={`group relative inline-flex rounded-full border border-light-gray bg-slate-100 transition ${
+              isEditing ? "cursor-pointer hover:border-teal-500" : ""
+            }`}
+            onClick={handleAvatarClick}
+          >
+            <Avatar
+              src={avatarPreviewUrl || undefined}
+              name={formData.name}
+              size="xl"
+            />
+
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleAvatarChange}
+            />
+
+            {isEditing ? (
+              <div className="pointer-events-none absolute inset-0 hidden items-center justify-center rounded-full bg-slate-900/30 text-white group-hover:flex">
+                <Icon icon={Pencil} size={20} className="text-white" />
+              </div>
+            ) : null}
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -309,7 +377,7 @@ export default function ProfileForm({
           </div>
 
           {isEditing ? (
-            <div className="mt-4 flex flex-col-reverse gap-3 border-t border-light-gray pt-3 sm:flex-row sm:justify-end">
+              <div className="mt-4 flex flex-col-reverse gap-3 border-t border-light-gray pt-3 sm:flex-row sm:justify-end">
               <Button
                 variant="secondary"
                 type="button"
@@ -326,7 +394,7 @@ export default function ProfileForm({
                 variant="primary"
                 type="button"
                 disabled={isSaving}
-                onClick={() => onSave(formData)}
+                onClick={() => onSave(formData, selectedImageFile)}
                 className="w-full sm:w-auto"
               >
                 {isSaving ? "Saving..." : "Save Changes"}

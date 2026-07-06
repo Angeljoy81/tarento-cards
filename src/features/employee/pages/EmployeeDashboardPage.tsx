@@ -54,11 +54,11 @@ export default function EmployeeDashboardPage() {
 
   return (
     <EmployeeLayout
-      title="Tarento Card"
-      subtitle="Track and manage your digital business card."
+      title=""
+      subtitle=""
       employee={profile}
     >
-      <div className="w-full px-8 py-6">
+      <div className="mx-auto max-w-7xl px-8 py-6">
         <div className="space-y-6">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
 
