@@ -26,16 +26,20 @@ export function AdminLoginPage() {
 
         <Card padding="lg" className="relative z-10">
           <div className="mb-6 space-y-2">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-500">Admin access</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-500">Portal access</p>
             <h1 className="text-2xl font-semibold text-navy-500">Sign in to continue</h1>
-            <p className="text-sm text-mid-gray">Use your admin credentials to reach the dashboard.</p>
+            <p className="text-sm text-mid-gray">Use your credentials or Azure ID to log in.</p>
           </div>
 
           <AdminLoginForm
             onSubmit={(credentials) => {
               loginMutation.mutate(credentials, {
-                onSuccess: () => {
-                  navigate(ROUTES.ADMIN_DASHBOARD);
+                onSuccess: (data) => {
+                  if (data.user.role === 'admin') {
+                    navigate(ROUTES.ADMIN_DASHBOARD);
+                  } else {
+                    navigate(ROUTES.EMPLOYEE_DASHBOARD);
+                  }
                 },
               });
             }}

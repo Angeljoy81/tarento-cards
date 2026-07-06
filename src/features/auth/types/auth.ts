@@ -1,14 +1,14 @@
-export type Role = 'admin' | 'employee';
+import type { Role } from '@/types/common.types';
 
 export interface User {
   id: string;
   name: string;
   email: string;
+  role: Role;
 }
 
 export interface AuthResponse {
   user: User;
-  role: Role;
   token: string;
 }
 
