@@ -80,7 +80,7 @@ export default function VisitsChart({
 
       {/* Chart */}
 
-      <div className="mt-8 h-[320px]">
+      <div className="mt-8 h-80">
 
         <ResponsiveContainer
           width="100%"

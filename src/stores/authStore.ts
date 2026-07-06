@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import type { Role, User } from '../features/auth/types/auth';
+import type { Role } from '../types/common.types';
+import type { User } from '../features/auth/types/auth';
 
 interface AuthState {
   user: User | null;
@@ -28,6 +29,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: storageKey,
       storage: authStorage,
-    },
-  ),
+    }
+  )
 );

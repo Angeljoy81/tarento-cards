@@ -46,7 +46,7 @@ export function Sidebar({ items, title, className }: SidebarProps) {
                   : "text-navy-500 hover:text-white hover:bg-white/10 focus:text-white focus:bg-navy-400"
               )}
             >
-              {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+              {item.icon && <span className="shrink-0">{item.icon}</span>}
               <span>{item.label}</span>
             </button>
           ))}
