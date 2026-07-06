@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
 
+import EmployeeLayout from "../components/EmployeeLayout";
 import ProfileForm from "../components/ProfileForm";
 import { useEmployeeProfile } from "../hooks/useEmployeeProfile";
 
@@ -36,7 +37,12 @@ export default function EditProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl space-y-8">
+    <EmployeeLayout
+      title="My Profile"
+      subtitle="Update the public information visitors see on your card."
+      employee={profile}
+    >
+      <div className="mx-auto max-w-5xl space-y-8">
 
       {/* Back Button */}
 
@@ -73,6 +79,7 @@ export default function EditProfilePage() {
         onSave={updateProfile}
       />
 
-    </div>
+      </div>
+    </EmployeeLayout>
   );
 }

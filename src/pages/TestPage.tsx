@@ -1,9 +1,5 @@
-import ComponentTest from "@/components/ComponentTest";
+import ShareQrPage from "@/features/employee/pages/ShareQrPage";
 
 export default function TestPage() {
-  return (
-    <div>
-      <ComponentTest />
-    </div>
-  );
+  return <ShareQrPage />;
 }

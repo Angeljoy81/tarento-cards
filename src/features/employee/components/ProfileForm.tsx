@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Lock } from "lucide-react";
 
 import Avatar from "@/components/Avatar";
@@ -19,17 +19,67 @@ interface ProfileFormProps {
   onSave: (data: EmployeeProfile) => void;
 }
 
+const expertiseFields: CuratedField[] = [
+  {
+    id: "react",
+    label: "React",
+    value: "React",
+  },
+  {
+    id: "typescript",
+    label: "TypeScript",
+    value: "TypeScript",
+  },
+  {
+    id: "figma",
+    label: "Figma",
+    value: "Figma",
+  },
+  {
+    id: "design-system",
+    label: "Design Systems",
+    value: "Design Systems",
+  },
+  {
+    id: "accessibility",
+    label: "Accessibility",
+    value: "Accessibility",
+  },
+  {
+    id: "leadership",
+    label: "Leadership",
+    value: "Leadership",
+  },
+  {
+    id: "node",
+    label: "Node.js",
+    value: "Node.js",
+  },
+  {
+    id: "dotnet",
+    label: ".NET",
+    value: ".NET",
+  },
+];
+
+const normalizeProfile = (
+  profile: EmployeeProfile
+): EmployeeProfile => ({
+  ...profile,
+  curatedFields: profile.curatedFields.filter((field) =>
+    expertiseFields.some((item) => item.id === field.id)
+  ),
+});
+
 export default function ProfileForm({
   profile,
   isSaving = false,
   onSave,
 }: ProfileFormProps) {
   const [formData, setFormData] =
-    useState<EmployeeProfile>(profile);
-
-  useEffect(() => {
-    setFormData(profile);
-  }, [profile]);
+    useState<EmployeeProfile>(() =>
+      normalizeProfile(profile)
+    );
 
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
@@ -286,86 +336,21 @@ export default function ProfileForm({
       </Card>
 
       {/* ===========================================
-            ADDITIONAL INFORMATION
+            AREAS OF EXPERTISE
       ============================================ */}
 
       <Card>
 
         <h2 className="mb-6 text-xl font-semibold text-navy-500">
-          Additional Information
+          Areas of Expertise
         </h2>
+
         <CuratedFieldPicker
-          availableFields={[
-            {
-              id: "react",
-              label: "React",
-              value: "React",
-            },
-            {
-              id: "typescript",
-              label: "TypeScript",
-              value: "TypeScript",
-            },
-            {
-              id: "figma",
-              label: "Figma",
-              value: "Figma",
-            },
-            {
-              id: "design-system",
-              label: "Design Systems",
-              value: "Design Systems",
-            },
-            {
-              id: "accessibility",
-              label: "Accessibility",
-              value: "Accessibility",
-            },
-            {
-              id: "leadership",
-              label: "Leadership",
-              value: "Leadership",
-            },
-            {
-              id: "node",
-              label: "Node.js",
-              value: "Node.js",
-            },
-            {
-              id: "dotnet",
-              label: ".NET",
-              value: ".NET",
-            },
-          ]}
+          availableFields={expertiseFields}
           selectedFields={formData.curatedFields}
           onAdd={handleAddField}
           onRemove={handleRemoveField}
         />
-
-        {formData.curatedFields.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-3">
-            {formData.curatedFields.map((field) => (
-              <div
-                key={field.id}
-                className="flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2"
-              >
-                <span className="text-sm font-medium text-teal-700">
-                  {field.label}
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleRemoveField(field.id)
-                  }
-                  className="text-base leading-none text-mid-gray transition-colors hover:text-destructive"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </Card>
 
       {/* ===========================================
@@ -377,7 +362,9 @@ export default function ProfileForm({
         <Button
           variant="secondary"
           type="button"
-          onClick={() => setFormData(profile)}
+          onClick={() =>
+            setFormData(normalizeProfile(profile))
+          }
         >
           Cancel
         </Button>

@@ -103,7 +103,7 @@ export default function VisitsChart({
             <Line
               type="monotone"
               dataKey="visits"
-              stroke="#173B63"
+              stroke="var(--color-navy-500)"
               strokeWidth={3}
               dot={{
                 r: 4,

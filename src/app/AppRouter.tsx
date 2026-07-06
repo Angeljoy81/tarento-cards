@@ -7,6 +7,7 @@ import { AdminLayout } from './layouts/AdminLayout';
 import { EmployeeLayout } from './layouts/EmployeeLayout';
 import { AdminLoginPage } from '../features/auth/pages/AdminLoginPage';
 import { EmployeeAccessRequestPage } from '../features/auth/pages/EmployeeAccessRequestPage';
+import TestPage from '../pages/TestPage';
 import { AdminDashboardPage } from '../features/admin/pages/AdminDashboardPage';
 import { AdminProfilePage } from '../features/admin/pages/AdminProfilePage';
 import { EmployeeDirectoryPage } from '../features/admin/pages/EmployeeDirectoryPage';
@@ -16,7 +17,7 @@ import ComponentTest from '../components/ComponentTest';
 export function AppRouter() {
   return (
     <Routes>
-        <Route path={ROUTES.COMPONENT_TEST} element={<ComponentTest />} />
+        <Route path={ROUTES.COMPONENT_TEST} element={<TestPage />} />
 
         {/* Public / Unauthenticated Routes */}
         <Route element={<PublicLayout />}>

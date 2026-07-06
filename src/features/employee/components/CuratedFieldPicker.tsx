@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
+import { Plus, X } from "lucide-react";
 import { Trash2 } from "lucide-react";
 
 import { Button } from "@/components/Button";
 import { Select } from "@/components/Select";
-import { Input } from "@/components/Input";
 import { Icon } from "@/components/Icon";
 
 import type { CuratedField } from "../types/employee.types";
@@ -24,6 +24,7 @@ export default function CuratedFieldPicker({
   onRemove,
 }: CuratedFieldPickerProps) {
   const [selectedId, setSelectedId] = useState("");
+  const [isAdding, setIsAdding] = useState(false);
 
   const remainingFields = useMemo(() => {
     return availableFields.filter(
@@ -46,59 +47,62 @@ export default function CuratedFieldPicker({
     onAdd(field);
 
     setSelectedId("");
+    setIsAdding(false);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
+      {selectedFields.length > 0 && (
+        <div className="flex flex-wrap gap-3">
+          {selectedFields.map((field) => (
+            <span
+              key={field.id}
+              className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-medium text-teal-700"
+            >
+              {field.label}
 
-      {/* Existing Fields */}
+              <button
+                type="button"
+                aria-label={`Remove ${field.label}`}
+                className="text-mid-gray transition-colors hover:text-destructive"
+                onClick={() =>
+                  onRemove(field.id)
+                }
+              >
+                <Icon
+                  icon={X}
+                  size={16}
+                  className="text-current"
+                />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
 
-      {selectedFields.map((field) => (
-
-        <div
-          key={field.id}
-          className="flex items-end gap-4"
+      {remainingFields.length > 0 && !isAdding && (
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={() => setIsAdding(true)}
         >
-
-          <div className="flex-1">
-
-            <Input
-              label={field.label}
-              value={field.value}
-              onChange={() => {}}
-              disabled
-            />
-
-          </div>
-
-          <Button
-            variant="secondary"
-            type="button"
-            onClick={() =>
-              onRemove(field.id)
-            }
-          >
+          <div className="flex items-center gap-2">
             <Icon
-              icon={Trash2}
+              icon={Plus}
               size={20}
             />
-          </Button>
+            Add new
+          </div>
+        </Button>
+      )}
 
-        </div>
-
-      ))}
-
-      {/* Add Another */}
-
-      {remainingFields.length > 0 && (
-
-        <div className="rounded-button border border-dashed border-light-gray p-4">
-
+      {remainingFields.length > 0 && isAdding && (
+        <div className="rounded-button border border-dashed border-light-gray bg-off-white p-4">
           <Select
-            label="Add another field"
+            label="Area of expertise"
             value={selectedId}
             onChange={setSelectedId}
-            placeholder="+ Add another field..."
+            placeholder="Select an area"
             options={remainingFields.map(
               (field) => ({
                 label: field.label,
@@ -107,7 +111,17 @@ export default function CuratedFieldPicker({
             )}
           />
 
-          <div className="mt-4 flex justify-end">
+          <div className="mt-4 flex justify-end gap-3">
+            <Button
+              variant="tertiary"
+              type="button"
+              onClick={() => {
+                setSelectedId("");
+                setIsAdding(false);
+              }}
+            >
+              Cancel
+            </Button>
 
             <Button
               variant="primary"
@@ -115,7 +129,7 @@ export default function CuratedFieldPicker({
               disabled={!selectedId}
               onClick={handleAdd}
             >
-              Add Field
+              Add
             </Button>
 
           </div>
