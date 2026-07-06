@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Eye, Pencil } from "lucide-react";
+import { Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/Button";
+import { ROUTES } from "@/config/routes";
 import StatCard from "@/components/StatCard";
 
 import BusinessCardPlaceholder from "../components/BusinessCardPlaceholder";
@@ -57,11 +58,11 @@ export default function EmployeeDashboardPage() {
       subtitle="Track and manage your digital business card."
       employee={profile}
     >
-      <div className="space-y-4">
+      <div className="flex h-[calc(100vh-120px)] flex-col gap-4 overflow-hidden">
 
       {/* Header */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
+      <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
 
         <div>
 
@@ -80,61 +81,49 @@ export default function EmployeeDashboardPage() {
 
         </div>
 
-        <div className="mt-4 flex gap-2 lg:mt-0">
+      </div>
 
-          <Button
-            variant="secondary"
-            onClick={() =>
-              navigate("/employee/my-profile")
-            }
-          >
-            <div className="flex items-center gap-2">
-              <Pencil size={18} />
-              Edit Profile
+      {/* Dashboard Content */}
+
+      <div className="flex flex-1 gap-4 overflow-hidden xl:gap-5 xl:px-0 xl:py-0 xl:flex-row">
+        <div className="flex h-full flex-1 flex-col gap-4">
+          <div className="grid grid-cols-3 gap-3 w-full">
+            <StatCard
+              label="Total Visits"
+              value={totalVisits}
+              icon={Eye}
+              trend={{
+                direction: "up",
+                value: "+18%",
+              }}
+            />
+
+            <StatCard
+              label="This Week"
+              value={84}
+              icon={Eye}
+            />
+
+            <StatCard
+              label="Today's Visits"
+              value={12}
+              icon={Eye}
+            />
+          </div>
+
+          <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-card border border-light-gray bg-white p-3 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
+            <div className="flex-1 min-h-0">
+              <VisitsChart
+                data={visits}
+                range={range}
+                onRangeChange={setRange}
+              />
             </div>
-          </Button>
-
+          </div>
         </div>
 
-      </div>
-
-      {/* Statistics */}
-
-      <div className="grid gap-4 md:grid-cols-3">
-
-        <StatCard
-          label="Total Visits"
-          value={totalVisits}
-          icon={Eye}
-          trend={{
-            direction: "up",
-            value: "+18%",
-          }}
-        />
-
-        <StatCard
-          label="This Week"
-          value={84}
-          icon={Eye}
-        />
-
-        <StatCard
-          label="Today's Visits"
-          value={12}
-          icon={Eye}
-        />
-
-      </div>
-
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_300px]">
-        <VisitsChart
-          data={visits}
-          range={range}
-          onRangeChange={setRange}
-        />
-
-          <section className="rounded-card border border-light-gray bg-white p-4 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
-          <div className="mb-4 flex items-center justify-between gap-3">
+        <section className="flex h-full min-h-0 flex-col rounded-card border border-light-gray bg-white p-3 shadow-[0_12px_30px_rgba(23,40,60,0.06)]">
+          <div className="mb-3 flex items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-navy-500">
                 Live Preview
@@ -149,14 +138,16 @@ export default function EmployeeDashboardPage() {
               variant="secondary"
               size="sm"
               onClick={() =>
-                navigate("/employee/my-profile")
+                navigate(ROUTES.EMPLOYEE_EDIT_PROFILE)
               }
             >
               Edit Profile
             </Button>
           </div>
 
-          <BusinessCardPlaceholder />
+          <div className="flex-1 overflow-auto">
+            <BusinessCardPlaceholder />
+          </div>
         </section>
       </div>
 

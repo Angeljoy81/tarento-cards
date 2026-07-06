@@ -12,7 +12,8 @@ import { AdminDashboardPage } from '../features/admin/pages/AdminDashboardPage';
 import { AdminProfilePage } from '../features/admin/pages/AdminProfilePage';
 import { EmployeeDirectoryPage } from '../features/admin/pages/EmployeeDirectoryPage';
 import { CompanyProfilePage } from '../features/admin/pages/CompanyProfilePage';
-import ComponentTest from '../components/ComponentTest';
+import EmployeeDashboardPage from '../features/employee/pages/EmployeeDashboardPage';
+import EditProfilePage from '../features/employee/pages/EditProfilePage';
 
 export function AppRouter() {
   return (
@@ -44,8 +45,8 @@ export function AppRouter() {
             <EmployeeLayout />
           </ProtectedRoute>
         }>
-          <Route path={ROUTES.EMPLOYEE_DASHBOARD} element={<div className="p-8 text-almost-black">Employee Dashboard Page Stub</div>} />
-          <Route path={ROUTES.EMPLOYEE_EDIT_PROFILE} element={<div className="p-8 text-almost-black">Edit Profile Page Stub</div>} />
+          <Route path={ROUTES.EMPLOYEE_DASHBOARD} element={<EmployeeDashboardPage />} />
+          <Route path={ROUTES.EMPLOYEE_EDIT_PROFILE} element={<EditProfilePage />} />
           <Route path={ROUTES.EMPLOYEE_SHARE} element={<div className="p-8 text-almost-black">Share QR Card Page Stub</div>} />
         </Route>
 

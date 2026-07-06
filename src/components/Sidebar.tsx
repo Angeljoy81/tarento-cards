@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { cn } from '../lib/utils.ts';
 
 interface SidebarItem {
@@ -7,6 +8,7 @@ interface SidebarItem {
   icon?: ReactNode;
   onClick?: () => void;
   active?: boolean;
+  href?: string;
 }
 
 interface SidebarProps {
@@ -16,6 +18,13 @@ interface SidebarProps {
 }
 
 export function Sidebar({ items, title, className }: SidebarProps) {
+  const location = useLocation();
+
+  const resolvedItems = items.map((item) => ({
+    ...item,
+    active: item.active ?? item.href === location.pathname,
+  }));
+
   return (
     <aside className={cn("w-64 bg-white border-r border-light-gray shadow-sm", className)}>
       <div className="flex flex-col h-full">
@@ -26,15 +35,15 @@ export function Sidebar({ items, title, className }: SidebarProps) {
         )}
         
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-          {items.map((item) => (
+          {resolvedItems.map((item) => (
             <button
               key={item.id}
               onClick={item.onClick}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-md transition-colors text-left font-medium",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-md text-left font-medium transition-colors",
                 item.active
-                  ? "bg-teal-50 text-teal-500 border border-teal-200"
-                  : "text-navy-500 hover:bg-off-white"
+                  ? "!bg-teal-600 text-white shadow-sm border-l-4 border-teal-400 hover:!bg-teal-600 focus:!bg-teal-600 hover:!text-white focus:!text-white"
+                  : "text-navy-500 hover:text-white hover:bg-white/10 focus:text-white focus:bg-navy-400"
               )}
             >
               {item.icon && <span className="shrink-0">{item.icon}</span>}

@@ -16,7 +16,9 @@ import type {
 interface ProfileFormProps {
   profile: EmployeeProfile;
   isSaving?: boolean;
+  isEditing?: boolean;
   onSave: (data: EmployeeProfile) => void;
+  onCancel?: () => void;
 }
 
 const expertiseFields: CuratedField[] = [
@@ -74,7 +76,9 @@ const normalizeProfile = (
 export default function ProfileForm({
   profile,
   isSaving = false,
+  isEditing = false,
   onSave,
+  onCancel,
 }: ProfileFormProps) {
   const [formData, setFormData] =
     useState<EmployeeProfile>(() =>
@@ -123,63 +127,41 @@ export default function ProfileForm({
   };
 
   return (
-    <div className="space-y-8">
-
-      {/* ===========================================
-            YOUR DETAILS
-      ============================================ */}
-
-      <Card>
-
-        <div className="mb-8 flex items-center justify-between">
-
+    <div className="space-y-3">
+      <Card padding="md" className="p-4 sm:p-5">
+        <div className="mb-4 flex items-center justify-between gap-3">
           <div>
-
-            <h2 className="text-xl font-semibold text-navy-500">
-              Your Details
+            <h2 className="text-lg font-semibold text-navy-500">
+              Profile Details
             </h2>
-
             <p className="mt-1 text-sm text-mid-gray">
               These details are managed by your administrator.
             </p>
-
           </div>
 
-          <div className="flex items-center gap-2 rounded-full border border-light-gray bg-off-white px-3 py-2">
-
-            <Icon
-              icon={Lock}
-              size={16}
-              tone="disabled"
-            />
-
-            <span className="text-sm text-mid-gray">
-              Locked Info
-            </span>
-
+          <div className="flex items-center gap-2 rounded-full border border-light-gray bg-off-white px-3 py-1.5">
+            <Icon icon={Lock} size={16} tone="disabled" />
+            <span className="text-sm text-mid-gray">Locked Info</span>
           </div>
-
         </div>
 
-        <div className="mb-8 flex justify-center">
-
-          <Avatar
-            src={formData.avatar}
-            name={formData.name}
-            size="xl"
-          />
-
+        <div className="mb-4 flex justify-center">
+          <Avatar src={formData.avatar} name={formData.name} size="xl" />
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-4">
+          <div className="grid gap-3 md:grid-cols-2">
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-mid-gray">
+            <label className="mb-1.5 block text-sm font-medium text-mid-gray">
               Full Name
             </label>
 
-            <div className="flex items-center justify-between rounded-button border border-light-gray bg-off-white px-4 py-3">
+            <div
+              title="This field is locked by administration"
+              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+            >
 
               <span>{formData.name}</span>
 
@@ -195,11 +177,14 @@ export default function ProfileForm({
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-mid-gray">
+            <label className="mb-1.5 block text-sm font-medium text-mid-gray">
               Job Title
             </label>
 
-            <div className="flex items-center justify-between rounded-button border border-light-gray bg-off-white px-4 py-3">
+            <div
+              title="This field is locked by administration"
+              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+            >
 
               <span>{formData.jobTitle}</span>
 
@@ -215,11 +200,14 @@ export default function ProfileForm({
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-mid-gray">
+            <label className="mb-1.5 block text-sm font-medium text-mid-gray">
               Department
             </label>
 
-            <div className="flex items-center justify-between rounded-button border border-light-gray bg-off-white px-4 py-3">
+            <div
+              title="This field is locked by administration"
+              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+            >
 
               <span>{formData.department}</span>
 
@@ -235,11 +223,14 @@ export default function ProfileForm({
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-mid-gray">
+            <label className="mb-1.5 block text-sm font-medium text-mid-gray">
               Phone Number
             </label>
 
-            <div className="flex items-center justify-between rounded-button border border-light-gray bg-off-white px-4 py-3">
+            <div
+              title="This field is locked by administration"
+              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+            >
 
               <span>{formData.phone}</span>
 
@@ -255,11 +246,14 @@ export default function ProfileForm({
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-mid-gray">
+            <label className="mb-1.5 block text-sm font-medium text-mid-gray">
               Email Address
             </label>
 
-            <div className="flex items-center justify-between rounded-button border border-light-gray bg-off-white px-4 py-3">
+            <div
+              title="This field is locked by administration"
+              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+            >
 
               <span>{formData.email}</span>
 
@@ -275,11 +269,14 @@ export default function ProfileForm({
 
           <div>
 
-            <label className="mb-2 block text-sm font-medium text-mid-gray">
+            <label className="mb-1.5 block text-sm font-medium text-mid-gray">
               LinkedIn Profile
             </label>
 
-            <div className="flex items-center justify-between rounded-button border border-light-gray bg-off-white px-4 py-3">
+            <div
+              title="This field is locked by administration"
+              className="flex items-center justify-between rounded-button border border-light-gray bg-slate-100 px-3 py-2.5 text-sm text-slate-500 hover:cursor-not-allowed"
+            >
 
               <span className="truncate">
                 {formData.linkedin}
@@ -295,90 +292,80 @@ export default function ProfileForm({
 
           </div>
 
-        </div>
-
-      </Card>
-
-      {/* ===========================================
-            ABOUT
-      ============================================ */}
-
-      <Card>
-
-        <div className="mb-4 flex items-center justify-between">
-
-          <div>
-
-            <h2 className="text-xl font-semibold text-navy-500">
-              About (Bio)
-            </h2>
-
-            <p className="mt-1 text-sm text-mid-gray">
-              A short summary shown on your digital business card.
-            </p>
-
           </div>
 
-          <span className="text-sm text-mid-gray">
-            {formData.description.length}/100
-          </span>
+          <div className="rounded-xl border border-light-gray bg-off-white/60 p-3">
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <div>
+                <h3 className="text-sm font-semibold text-navy-500">
+                  About (Bio)
+                </h3>
+                <p className="mt-1 text-sm text-mid-gray">
+                  A short summary shown on your digital business card.
+                </p>
+              </div>
+              <span className="text-sm text-mid-gray">
+                {formData.description.length}/100
+              </span>
+            </div>
 
+            <textarea
+              rows={4}
+              maxLength={100}
+              value={formData.description}
+              onChange={handleDescriptionChange}
+              readOnly={!isEditing}
+              className={`w-full resize-none rounded-button border border-light-gray px-3 py-2.5 text-sm outline-none transition ${
+                isEditing
+                  ? "bg-white focus:border-teal-500"
+                  : "bg-slate-100 text-slate-500"
+              }`}
+            />
+          </div>
+
+          <div className="rounded-xl border border-light-gray bg-off-white/60 p-3">
+            <h3 className="mb-2 text-sm font-semibold text-navy-500">
+              Areas of Expertise
+            </h3>
+            <div className={isEditing ? "" : "opacity-90"}>
+              <CuratedFieldPicker
+                availableFields={expertiseFields}
+                selectedFields={formData.curatedFields}
+                onAdd={isEditing ? handleAddField : () => undefined}
+                onRemove={isEditing ? handleRemoveField : () => undefined}
+              />
+            </div>
+          </div>
         </div>
-
-        <textarea
-          rows={4}
-          maxLength={100}
-          value={formData.description}
-          onChange={handleDescriptionChange}
-          className="w-full resize-none rounded-button border border-light-gray px-4 py-3 outline-none focus:border-teal-500"
-        />
-
       </Card>
 
-      {/* ===========================================
-            AREAS OF EXPERTISE
-      ============================================ */}
+      <div className="flex flex-col-reverse gap-3 border-t border-light-gray pt-3 sm:flex-row sm:justify-end">
 
-      <Card>
+        {isEditing ? (
+          <>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={() => {
+                setFormData(normalizeProfile(profile));
+                onCancel?.();
+              }}
+            >
+              Cancel
+            </Button>
 
-        <h2 className="mb-6 text-xl font-semibold text-navy-500">
-          Areas of Expertise
-        </h2>
-
-        <CuratedFieldPicker
-          availableFields={expertiseFields}
-          selectedFields={formData.curatedFields}
-          onAdd={handleAddField}
-          onRemove={handleRemoveField}
-        />
-      </Card>
-
-      {/* ===========================================
-            ACTIONS
-      ============================================ */}
-
-      <div className="flex flex-col-reverse gap-3 border-t border-light-gray pt-6 sm:flex-row sm:justify-end">
-
-        <Button
-          variant="secondary"
-          type="button"
-          onClick={() =>
-            setFormData(normalizeProfile(profile))
-          }
-        >
-          Cancel
-        </Button>
-
-        <Button
-          variant="primary"
-          type="button"
-          disabled={isSaving}
-          onClick={() => onSave(formData)}
-        >
-          {isSaving
-            ? "Saving..."
-            : "Save Changes"}
-        </Button>
+            <Button
+              variant="primary"
+              type="button"
+              disabled={isSaving}
+              onClick={() => onSave(formData)}
+            >
+              {isSaving
+                ? "Saving..."
+                : "Save Changes"}
+            </Button>
+          </>
+        ) : null}
 
       </div>
 
